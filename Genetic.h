@@ -6,9 +6,9 @@
 #include <vector>			
 #include <string>
 #include <iostream>	
-#include <algorithm>				// for sort algorithm
-#include <time.h>					// for random seed
-#include <math.h>					// for abs()
+#include <algorithm>				
+#include <time.h>					
+#include <math.h>					
 
 using namespace std;
 
@@ -18,7 +18,7 @@ struct ga_struct
 	int fitness;
 };
 
-typedef vector<ga_struct> ga_vector;// for brevity
+typedef vector<ga_struct> ga_vector;
 
 
 #endif

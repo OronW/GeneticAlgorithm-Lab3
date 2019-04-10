@@ -1,13 +1,13 @@
 #include <string>
 #include "Genetic.h"
 
-#define GA_TARGET			std::string("Hello world!")
-#define GA_BULLSEYE			2 * GA_TARGET.size() * GA_TARGET.size()
-#define GA_MAXITER			16384		
-#define GA_ELITISIM_RATE	0.2f	
-#define GA_MUTATION_RATE	0.25f		
-#define GA_MUTATION			RAND_MAX * GA_MUTATION_RATE
-#define GA_MAXK				20
+#define TARGET			std::string("Hello world!")
+#define BULLSEYE			2 * TARGET.size() * TARGET.size()
+#define MAXITER			16384		
+#define ELITISIM_RATE	0.2f	
+#define MUTATION_RATE	0.25f		
+#define MUTATION			RAND_MAX * MUTATION_RATE
+#define MAXK				20
 
 
 
@@ -31,7 +31,7 @@ void tournament(ga_vector &pop, ga_vector &output, int n) {
 		return;
 	}
 	output.clear();
-	int k = rand() % (GA_MAXK - 2) + 2;
+	int k = rand() % (MAXK - 2) + 2;
 	int index;
 	int best = INFINITY;
 	int choice = 0;
@@ -89,7 +89,7 @@ int BEHeuristic(string source, string target) {
 		}
 	}
 
-	return GA_BULLSEYE - result;
+	return BULLSEYE - result;
 }
 
 void SUS(ga_vector &all_pop, ga_vector &output, int N) {
@@ -113,13 +113,11 @@ void SUSElitism(ga_vector &output, ga_vector &pop) {
 
 	int i = output.size();
 	int i1, i2, spos;
-	int tsize = GA_TARGET.size();
+	int tsize = TARGET.size();
 	string str;
 
-	//want to mate GA_POPSIZE-n elements
 
-	while (output.size() < GA_POPSIZE) {
-		//mate and add to output
+	while (output.size() < GA_POPSIZE) {	//mate and add to output
 		i1 = rand() % (GA_POPSIZE / 2);
 		i2 = rand() % (GA_POPSIZE / 2);
 		spos = rand() % tsize;
@@ -131,7 +129,7 @@ void SUSElitism(ga_vector &output, ga_vector &pop) {
 
 		output.push_back(citizen);
 
-		if (rand() < GA_MUTATION)
+		if (rand() < MUTATION)
 			mutate(output[i]);
 
 		i++;
@@ -144,9 +142,8 @@ void RWS(ga_vector &all_pop, vector<int> &Points, ga_vector &Keep) {
 	int fitness_threshold, j;
 	int last = 0;
 	Keep.clear();
-	for (int i = 0; i < numOfPoints; i++) {
+	for (int i = 0; i < numOfPoints; i++) { //find citizen with grater fitness
 		fitness_threshold = Points[i];
-		//find first citizen whose fitness is greater
 		j = 0;
 		while (fitnessSum(all_pop, j) < fitness_threshold) {
 			j++;
@@ -169,13 +166,13 @@ void RWS(ga_vector &all_pop, vector<int> &Points, ga_vector &Keep) {
 
 
 bool goalState(string source) {
-	bool s = source.compare(GA_TARGET);
+	bool s = source.compare(TARGET);
 	return (!s);
 }
 
 void BEFitness(ga_vector &all_pop)
 {
-	string target = GA_TARGET;
+	string target = TARGET;
 	int tsize = target.size();
 	unsigned int fitness;
 	double avg = 0;
@@ -223,17 +220,17 @@ string smartXbreed(string source1, string source2, int fitness1, int fitness2) {
 	if (fitness2 == fitness1)
 		return uniform_cross(source1, source2);
 
-	// p_i : ratio between other gene and this gene fitness
+	
 	double p1 = double(fitness2) / double(fitness1);
 	double p2 = double(fitness1) / double(fitness2);
 
-	//fix the ratio that is > 1
+	
 	if (p1 < p2)
 		p2 = 1 - p1;
 	else if (p2 < p1)
 		p1 = 1 - p2;
 	else {
-		cout << "smartXbreed error: probabilities are > 1" << endl;
+		cout << "probabilities are out of bounds" << endl;
 		return  uniform_cross(source1, source2);
 	}
 
@@ -250,7 +247,7 @@ string smartXbreed(string source1, string source2, int fitness1, int fitness2) {
 
 void initAllPop(ga_vector &all_pop, ga_vector &buffer)
 {
-	int tsize = GA_TARGET.size();
+	int tsize = TARGET.size();
 
 	for (int i = 0; i<GA_POPSIZE; i++) {
 		ga_struct citizen;
@@ -269,7 +266,7 @@ void initAllPop(ga_vector &all_pop, ga_vector &buffer)
 
 void calcFit(ga_vector &all_pop)
 {
-	string target = GA_TARGET;
+	string target = TARGET;
 	int tsize = target.size();
 	unsigned int fitness;
 	double avg = 0;
@@ -315,7 +312,7 @@ void elitism(ga_vector &all_pop,	ga_vector &buffer, int esize)
 
 void mutate(ga_struct &member)
 {
-	int tsize = GA_TARGET.size();
+	int tsize = TARGET.size();
 	int ipos = rand() % tsize;
 	int delta = (rand() % 90) + 32;
 
@@ -324,8 +321,8 @@ void mutate(ga_struct &member)
 
 void onePointCross(ga_vector &all_pop, ga_vector &buffer )
 {
-	int esize = GA_POPSIZE * GA_ELITISIM_RATE;
-	int tsize = GA_TARGET.size(), spos, i1, i2;
+	int esize = GA_POPSIZE * ELITISIM_RATE;
+	int tsize = TARGET.size(), spos, i1, i2;
 	for (int i = esize; i < GA_POPSIZE; i++) {
 		i1 = rand() % (GA_POPSIZE / 2);
 		i2 = rand() % (GA_POPSIZE / 2);
@@ -337,12 +334,9 @@ void onePointCross(ga_vector &all_pop, ga_vector &buffer )
 }
 
 void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation_rate)
-//cross type: 1 = single point
-//			  2 = uniform
-//mutation type: 1=random
 {
-	int esize = GA_POPSIZE * GA_ELITISIM_RATE;
-	int tsize = GA_TARGET.size(), spos, i1, i2;
+	int esize = GA_POPSIZE * ELITISIM_RATE;
+	int tsize = TARGET.size(), spos, i1, i2;
 
 	elitism(all_pop, buffer, esize);
 
@@ -352,11 +346,11 @@ void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation
 		i2 = rand() % (GA_POPSIZE / 2);
 		spos = rand() % tsize;
 
-		if (cross_type==1)
+		if (cross_type==1)	//siungle point
 			buffer[i].str = all_pop[i1].str.substr(0, spos) + all_pop[i2].str.substr(spos, tsize - spos);
-		else if (cross_type==2)
+		else if (cross_type==2)	// uniform
 			buffer[i].str = uniform_cross(all_pop[i1].str, all_pop[i2].str);
-		else if (cross_type == 3)
+		else if (cross_type == 3)	//smart
 			buffer[i].str = smartXbreed(all_pop[i1].str, all_pop[i2].str, all_pop[i1].fitness, all_pop[i2].fitness);
 		else
 		{
