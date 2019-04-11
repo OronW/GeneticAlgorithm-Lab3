@@ -12,7 +12,7 @@ void init_items(itemVector &items, Prob &p) {
 	for (unsigned int i = 0; i < p.weights.size(); i++) {
 		item it;
 		it.weight = p.weights[i];
-		it.value = p.values[i];
+		it.value = p.val[i];
 		items.push_back(it);
 	}
 
@@ -257,7 +257,7 @@ bool solveSack(int problem, int itr, int cross_type, int mutatation_type) {
 	sackVector sack01;
 	itemVector items;
 	int i;
-	Prob p = getProblem(problem);
+	Prob p = getProbl(problem);
 	int Opt = p.max_value;
 	bool success = false;
 

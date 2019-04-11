@@ -411,7 +411,9 @@ bool solveUsingGen(int N, int itr, int h, int cross_type, double mutation_rate, 
 
 		if (goalState((*all_pop)[0].str)) {
 			success = true;
-			cout << "Success!" << endl;
+			cout << "done" << endl;
+			cout << "********" << endl;
+			cout << "time data:" << endl;
 			break;
 		}
 
