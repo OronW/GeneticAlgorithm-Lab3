@@ -52,7 +52,7 @@ bool MinimumPrice(sackStruct x, sackStruct y);
 bool MaximumPrice(sackStruct x, sackStruct y);
 inline void sortMinimumPrice(sackVector &population);
 inline void sortMaximumPrice(sackVector &population);
-bool solveSack(int problem, int itr, int cross_type = 1, int mutatation_type = 2);
+bool solveSack(int problem, int itr, int cross_type = 1);
 void sack2str(sackStruct &sack, string &output);
 int getMaxRatioIndex(sackStruct &sack, itemVector &items);
 int getMinRatioIndex(sackStruct &sack, itemVector &items);

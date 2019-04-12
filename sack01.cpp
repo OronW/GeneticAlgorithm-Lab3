@@ -113,7 +113,7 @@ string crossoverSackstruct(string s1, string s2, int opt) {
 	return output;
 }
 
-void mateSackStruct(sackVector &sacks, itemVector &items, int cross_type, int mutation_type)
+void mateSackStruct(sackVector &sacks, itemVector &items, int cross_type)
 {
 
 	int start = floor(SACK_ELITISIM * SACK_POPULATION) + 1;
@@ -130,7 +130,7 @@ void mateSackStruct(sackVector &sacks, itemVector &items, int cross_type, int mu
 
 	
 		if (rand() % 100 < SACK_MUTATION_RATE)
-			mutateSack(sacks[i], items, mutation_type);
+			mutateSack(sacks[i], items);
 
 		
 		sacks[i].fitness = 0;	
@@ -187,18 +187,8 @@ int getMinRatioIndex(sackStruct &sack, itemVector &items) {
 }
 
 
-void mutateSack(sackStruct &sack, itemVector &items, int mutation_type) {
+void mutateSack(sackStruct &sack, itemVector &items) {
 	int N = sack.items.size();
-
-	if (mutation_type == 1) {	//change location of a queen randomly
-		int s = rand() % N;
-		if (sack.items[s] == '0')
-			sack.items[s] = '1';
-		else
-			sack.items[s] = '0';
-	}
-
-	else if (mutation_type == 2) {	//change location of a threatened queen randomly
 		int worse_item_id = getMaxRatioIndex(sack, items);
 		int best_item_id = getMinRatioIndex(sack, items);
 		sack.items[worse_item_id] = '0';
@@ -246,7 +236,7 @@ void sack2str(sackStruct &sack, string &output) {
 }
 
 
-bool solveSack(int problem, int itr, int cross_type, int mutatation_type) {
+bool solveSack(int problem, int itr, int cross_type) {
 	init_problems();
 	if (problem > 8 || problem < 0) {
 		cout << "Invalueid problem id, can be 0-7" << endl;
@@ -279,7 +269,7 @@ bool solveSack(int problem, int itr, int cross_type, int mutatation_type) {
 			break;
 		}
 
-		mateSackStruct(sack01, items, cross_type, mutatation_type);	//else...
+		mateSackStruct(sack01, items, cross_type);	//else...
 	}
 
 	double ticks = clock() - start;

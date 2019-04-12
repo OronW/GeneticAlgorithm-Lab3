@@ -46,8 +46,8 @@ int main()
 	//solveQueensConflict(1000, 20000);
 		//			(popSize,  iteration)
 
-	//solveSack(1000, 2000, 1, 0.05);
-		//	(popSize ,iteration , cross , muatation)
+	//solveSack(1000, 2000, 1);
+		//	(popSize ,iteration , cross)
 
 
 	elapsedDuration = (clock() - startElapsed) / (double)CLOCKS_PER_SEC;
