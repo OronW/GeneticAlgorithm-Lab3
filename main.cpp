@@ -17,6 +17,10 @@ int main(int argc, char* argv[])
 #include <ctime>
 
 
+void testfunc(string &s) {
+	s += "OSNGHKNAS";
+}
+
 int main()
 {
 	srand(unsigned(time(NULL)));
@@ -27,16 +31,16 @@ int main()
 	startElapsed = clock();
 
 	solveUsingGen(5000, 500, 1, 1, 0.1, 3);
-		//			(popSize,  ,crossbreed , Heuristic, muatation, selection)
-		//						1-eltism,	1-Manhattan,	rate,	1-single	
-		//						2-SUS,		2-BE					2-Unifrm
-		//						3-Tour								3-smrt
+		//		(popSize, iterations, 	Heuristic,		crossbreed,  muatation,	selection)
+		//								1-Manhattan,	1-single,		rate,	1-eltism	
+		//								2-BE			2-Unifrm,				2-SUS,
+		//																		3-Tour
 		
 	//solveQueensProb(1000, 1000, 1, 0.2);
-		//		(popSize,  crossbreed,  muatation)
-		//					1-eltism,		rate	
-		//					2-SUS,						
-		//					3-Tour				
+		//		(popSize,	iterations,		crossbreed,  muatation)
+		//									1-single,		rate	
+		//									2-Unifrm,					
+		//												
 
 
 	//solveQueensConflict(1000, 20000);
@@ -44,7 +48,8 @@ int main()
 
 	//solveSack(1000, 2000, 1);
 		//	(popSize ,iteration , cross)
-
+		//						1-single
+		//						2-Unifrm
 
 	elapsedDuration = (clock() - startElapsed) / (double)CLOCKS_PER_SEC;
 
