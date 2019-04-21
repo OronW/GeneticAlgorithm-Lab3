@@ -210,41 +210,6 @@ string uniform_cross(string source1, string source2) {
 
 
 
-string smartXbreed(string source1, string source2, int fitness1, int fitness2) {
-	int n = source1.size();
-	string result = source1;
-	if (fitness1 == 0)
-		return source1;
-	if (fitness2 == 0)
-		return source2;
-	if (fitness2 == fitness1)
-		return uniform_cross(source1, source2);
-
-	
-	double p1 = double(fitness2) / double(fitness1);
-	double p2 = double(fitness1) / double(fitness2);
-
-	
-	if (p1 < p2)
-		p2 = 1 - p1;
-	else if (p2 < p1)
-		p1 = 1 - p2;
-	else {
-		cout << "probabilities are out of bounds" << endl;
-		return  uniform_cross(source1, source2);
-	}
-
-	//apply cross
-	for (int i = 0; i < n; i++) {
-		if (rand() < p2)
-			result[i] = source2[i];
-	}
-
-	return result;
-}
-
-
-
 void initAllPop(ga_vector &all_pop, ga_vector &buffer)
 {
 	int tsize = TARGET.size();
@@ -256,7 +221,7 @@ void initAllPop(ga_vector &all_pop, ga_vector &buffer)
 		citizen.str.erase();
 
 		for (int j = 0; j<tsize; j++)
-			citizen.str += (rand() % 95) + 32;
+			citizen.str += (rand() % 90) + 32;
 
 		all_pop.push_back(citizen);
 	}
@@ -350,8 +315,6 @@ void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation
 			buffer[i].str = all_pop[i1].str.substr(0, spos) + all_pop[i2].str.substr(spos, tsize - spos);
 		else if (cross_type==2)	// uniform
 			buffer[i].str = uniform_cross(all_pop[i1].str, all_pop[i2].str);
-		else if (cross_type == 3)	//smart
-			buffer[i].str = smartXbreed(all_pop[i1].str, all_pop[i2].str, all_pop[i1].fitness, all_pop[i2].fitness);
 		else
 		{
 			cout << "mate error: unknown cross type" << endl;
