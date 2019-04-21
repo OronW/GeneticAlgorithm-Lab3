@@ -17,10 +17,6 @@ int main(int argc, char* argv[])
 #include <ctime>
 
 
-void testfunc(string &s) {
-	s += "OSNGHKNAS";
-}
-
 int main()
 {
 	srand(unsigned(time(NULL)));
